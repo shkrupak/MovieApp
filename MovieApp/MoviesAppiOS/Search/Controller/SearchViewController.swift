@@ -10,6 +10,7 @@ import UIKit
 class SearchViewController: UIViewController {
     
     //MARK: - PROPERTY
+    
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchResultTableView: UITableView!
@@ -28,9 +29,11 @@ class SearchViewController: UIViewController {
         view.backgroundColor = UIColor.App.background
         searchTextField.becomeFirstResponder()
         searchTextField.addTarget(self, action: #selector(requestSearchMovie), for: .editingChanged)
+        searchTextField.clearButtonMode = .whileEditing
         //search
         searchContainerView.layer.cornerRadius = searchContainerView.frame.height / 2
-        
+
+        searchResultTableView.backgroundColor = UIColor.App.background
         searchResultTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }
     
@@ -63,12 +66,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as! MovieCell
-        let movie = searchViewModel.moviesResponse?.results[indexPath.row]
-        cell.movieTitleLabel.text = movie?.title
+        if let movie = searchViewModel.moviesResponse?.results[indexPath.row] as? MovieModel {
+            cell.loadCellData(movie: movie)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 154
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

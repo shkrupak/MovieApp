@@ -95,11 +95,11 @@
             </objects>
             <point key="canvasLocation" x="116.79389312977099" y="115.49295774647888"/>
         </scene>
-        <!--Item-->
+        <!--Home-->
         <scene sceneID="FY8-n2-7MF">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dZ0-Gb-kqC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="AJG-Qf-fPi"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="ic_home" id="AJG-Qf-fPi"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fu1-3Y-4AX">
                         <rect key="frame" x="0.0" y="118" width="393" height="54"/>
@@ -114,11 +114,11 @@
             </objects>
             <point key="canvasLocation" x="1043.5114503816794" y="115.49295774647888"/>
         </scene>
-        <!--Item-->
+        <!--Favorite-->
         <scene sceneID="vhx-ky-V37">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kya-rG-DGZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="huM-YR-qWa"/>
+                    <tabBarItem key="tabBarItem" title="Favorite" image="ic_heart" id="huM-YR-qWa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SKp-Nw-Ek6">
                         <rect key="frame" x="0.0" y="118" width="393" height="54"/>
@@ -135,6 +135,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic_heart" width="20" height="20"/>
+        <image name="ic_home" width="20" height="20"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

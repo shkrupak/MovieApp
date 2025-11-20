@@ -36,5 +36,9 @@ class SearchMovieViewModel {
                 }
             }
         }
+        else {
+            moviesResponse = nil
+            completion(true, "Cleared searched movies")
+        }
     }
 }

@@ -19,6 +19,7 @@ struct APIConstant {
     
     //current base url
     static private let baseURL = MovieBaseURL.prod
+    static private let imageBaseURL = "https://image.tmdb.org/t/p/w500/"
     
     struct Endpoints {
         static var movieSearch: String {APIConstant.baseURL + "search/movie"}
@@ -31,6 +32,10 @@ struct APIConstant {
             "Authorization": accessToken
         ]
         return header
+    }
+    
+    static func getBaseUrl() -> String {
+        return APIConstant.imageBaseURL
     }
 }
 

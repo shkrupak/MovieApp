@@ -15,6 +15,9 @@ struct MovieResponseModel: Decodable {
 struct MovieModel: Decodable {
     let id: Int?
     let title: String?
+    let overview: String?
     let release_date: String?
     let original_title: String?
+    let poster_path: String?
+    let vote_average: Double?
 }

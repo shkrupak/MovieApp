@@ -31,6 +31,7 @@ class HomeViewController: UIViewController {
     //MARK: - ACTIONS
     @IBAction func didTapSearchButton(_ sender: Any) {
         if let searchVC = UIStoryboard(name: "Search", bundle: nil).instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController {
+            searchVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(searchVC, animated: true)
         }
     }
