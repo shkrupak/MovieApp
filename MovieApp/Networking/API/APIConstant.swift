@@ -7,17 +7,31 @@
 
 import Foundation
 
+
+
 struct APIConstant {
     struct MovieBaseURL {
-        static let prod = ""
+        static let prod = "https://api.themoviedb.org/3/"
         static let dev = ""
     }
+    
+    static private let accessToken = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZGFhMDZjYjU4MjM1OGIzY2NkYzNiNTgxMGViZjE1YSIsIm5iZiI6MTc2MzUzNjY2My44NCwic3ViIjoiNjkxZDZmMTc5OTMyMGRkNjc2ZmMxZTg0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.wZIHqXTVpBjYNGhAvVOhU8FKy_JWwwctc_CgKhIW41g"
     
     //current base url
     static private let baseURL = MovieBaseURL.prod
     
     struct Endpoints {
-        static var movieSearch: String {APIConstant.baseURL + "/search"}
-        static var movieDetail: String {APIConstant.baseURL + "/detail"}
+        static var movieSearch: String {APIConstant.baseURL + "search/movie"}
+        static var movieDetail: String {APIConstant.baseURL + "movie/"} //append movie id
+    }
+    
+    static func getHeader() -> Headers {
+        let header: [String: String] = [
+            "accept": "application/json",
+            "Authorization": accessToken
+        ]
+        return header
     }
 }
+
+

@@ -21,7 +21,7 @@ class NetworkURLRequestFactory {
         
         let urlString = requestURL.absoluteString
         var urlComponents = URLComponents(string: urlString)
-        
+
         if !queryItems.isEmpty {
             urlComponents?.queryItems = queryItems
         }

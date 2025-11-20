@@ -30,6 +30,9 @@ class HomeViewController: UIViewController {
 
     //MARK: - ACTIONS
     @IBAction func didTapSearchButton(_ sender: Any) {
+        if let searchVC = UIStoryboard(name: "Search", bundle: nil).instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController {
+            navigationController?.pushViewController(searchVC, animated: true)
+        }
     }
     
     //MARK: - DELEGATES

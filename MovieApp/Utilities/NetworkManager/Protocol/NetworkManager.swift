@@ -8,5 +8,5 @@
 import Foundation
 
 protocol NetworkManager {
-    func loadData(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void)
+    func loadData(request: URLRequest, completion: @escaping (Result<Data, RemoteAPIError>) -> Void)
 }

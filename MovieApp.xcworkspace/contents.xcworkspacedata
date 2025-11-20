@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "absolute:/Users/rupak/Documents/1.Work_Files/1.My Projects/1. iOS/Freelance Project/Visit Nepal/visit-nepal/APIConstant.swift">
-   </FileRef>
-   <FileRef
       location = "group:MovieApp.xcodeproj">
    </FileRef>
    <FileRef
