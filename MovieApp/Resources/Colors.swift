@@ -24,5 +24,9 @@ extension UIColor {
         static var background: UIColor {
             UIColor(named: "Background") ?? .gray
         }
+        
+        static var favorite: UIColor {
+            UIColor(named: "Favorite") ?? .gray
+        }
     }
 }

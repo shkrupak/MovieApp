@@ -34,7 +34,7 @@ struct APIConstant {
         return header
     }
     
-    static func getBaseUrl() -> String {
+    static func getImageBaseUrl() -> String {
         return APIConstant.imageBaseURL
     }
 }

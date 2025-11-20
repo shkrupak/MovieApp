@@ -22,6 +22,8 @@ class HomeViewController: UIViewController {
     //MARK: - METHODS
     private func setupView() {
         // search button
+        view.backgroundColor = UIColor.App.background
+        title = "MovieBox"
         searchButton.setImage(UIImage(named: "ic_search"), for: .normal)
         searchButton.backgroundColor = UIColor.gray.withAlphaComponent(0.4)
         searchButton.tintColor = UIColor.black.withAlphaComponent(0.3)

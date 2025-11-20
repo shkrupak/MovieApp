@@ -51,12 +51,12 @@ class SearchViewController: UIViewController {
         }
     }
     
-    //MARK: - ACTION
-    
-    
-    //MARK: - DELEGATE
-    
-    
+    private func navigateToDetailView(movie: MovieModel) {
+        if let detailView = UIStoryboard(name: "MovieDetail", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
+            detailView.movie = movie
+            navigationController?.pushViewController(detailView, animated: true)
+        }
+    }
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -78,5 +78,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if let movie = searchViewModel.moviesResponse?.results[indexPath.row] as? MovieModel {
+            navigateToDetailView(movie: movie)
+        }
     }
 }

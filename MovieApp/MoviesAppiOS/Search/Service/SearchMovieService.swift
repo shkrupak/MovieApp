@@ -38,14 +38,13 @@ final class SearchMovieService: SearchMovieServiceProtocol {
 extension SearchMovieService {
     private func makeURLRequest(query: String) -> URLRequest? {
         guard let url = URL(string: APIConstant.Endpoints.movieSearch) else {return nil}
-        let headers = APIConstant.getHeader()
-        
+            
         var qureyItems = [URLQueryItem]()
         qureyItems.append(URLQueryItem(name: "query", value: query))
         qureyItems.append(URLQueryItem(name: "api_key", value: "5daa06cb582358b3ccdc3b5810ebf15a"))
         
         let urlRequest = NetworkURLRequestFactory.createURLRequest(requestURL: url, queryItems: qureyItems, method: .get)
-        print(urlRequest)
+        
         return urlRequest
     }
 }
