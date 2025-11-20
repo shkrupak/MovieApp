@@ -65,15 +65,11 @@
 		};
 		0F289CDB2ECDB0AD0004F134 /* MovieAppTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = MovieAppTests;
 			sourceTree = "<group>";
 		};
 		0F289CE52ECDB0AD0004F134 /* MovieAppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = MovieAppUITests;
 			sourceTree = "<group>";
 		};

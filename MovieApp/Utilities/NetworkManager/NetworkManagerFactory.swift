@@ -11,7 +11,7 @@ import Foundation
 typealias Parameters = [String: Any]
 typealias Headers = [String: String]
 
-class NetworkRequestFactory {
+class NetworkURLRequestFactory {
     
     static func createURLRequest(requestURL: URL,
                                  queryItems: [URLQueryItem] = [],
