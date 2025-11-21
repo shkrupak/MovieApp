@@ -27,7 +27,7 @@ final class MovieDetailService: MovieDetailServiceProtocol {
                 catch {
                     completion(.failure(.failedToParse))
                 }
-            case .failure(let failure):
+            case .failure(_):
                 completion(.failure(.unableToComplete))
             }
         }
