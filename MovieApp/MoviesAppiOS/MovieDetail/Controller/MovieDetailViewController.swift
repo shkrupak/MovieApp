@@ -73,7 +73,7 @@ class MovieDetailViewController: UIViewController {
                 }
             }
             movieTitleLabel.text = movieResponse.title
-            releasedDateLabel.text = movieResponse.release_date ?? ""
+            releasedDateLabel.text = movieResponse.release_date?.formatDateTo(inputFormat: .yMMdd, outputFormat: .ddMMMy) ?? ""
             runtimeLabel.text = "\(movieResponse.runtime ?? 0) mins"
             overviewLabel.text = movieResponse.overview
         }

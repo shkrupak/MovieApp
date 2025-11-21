@@ -34,7 +34,6 @@ class SearchViewController: UIViewController {
         searchContainerView.layer.cornerRadius = searchContainerView.frame.height / 2
 
         searchResultTableView.backgroundColor = UIColor.App.background
-        searchResultTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }
     
     @objc

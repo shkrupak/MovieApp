@@ -23,7 +23,8 @@ struct APIConstant {
     
     struct Endpoints {
         static var movieSearch: String {APIConstant.baseURL + "search/movie"}
-        static var movieDetail: String {APIConstant.baseURL + "movie/"} //append movie id
+        static var movieDetail: String {APIConstant.baseURL + "movie/"}
+        static var popularMovie: String {APIConstant.baseURL + "movie/popular"}//append movie id
     }
     
     static func getHeader() -> Headers {
