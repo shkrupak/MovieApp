@@ -8,37 +8,47 @@
 import Foundation
 
 class SearchMovieViewModel {
-    var moviesResponse: MovieResponseModel?
+    private(set) var moviesResponse: MovieResponseModel?
     private let searchMovieService = SearchMovieService()
-    var isLoading: Bool = false
-    
-    private func isValidQuery(query: String) -> Bool {
-        return query != ""
+    private(set) var isLoading: Bool = false {
+        didSet { onLoadingChange?(isLoading)}
     }
     
-    func requestSearchMovie(query: String, completion: @escaping (Bool, String) -> Void) {
+    var onLoadingChange: ((Bool) -> Void)?
+    var onStateChange: ((SearchState) -> Void)?
+    
+    enum SearchState {
+        case success
+        case failure(String)
+        case cleared
+    }
+    
+    func requestSearchMovie(query: String) {
         if isValidQuery(query: query) {
             isLoading = true
             searchMovieService.requestSearchMovie(query: query) { [weak self] response in
                 guard let self = self else {
-                    completion(false, "Unable to complete the search request")
                     return
                 }
-                
                 self.isLoading = false
+                
                 
                 switch response {
                 case .success(let result):
                     self.moviesResponse = result
-                    completion(true, "Search completed")
+                    self.onStateChange?(((self.moviesResponse?.results.isEmpty) ?? true) ? .failure("No movies found") : .success)
                 case .failure(let error):
-                    completion(false, error.localizedDescription)
+                    self.onStateChange?(.failure(error.localizedDescription))
                 }
             }
         }
         else {
             moviesResponse = nil
-            completion(true, "Cleared searched movies")
+            self.onStateChange?(.cleared)
         }
+    }
+    
+    private func isValidQuery(query: String) -> Bool {
+        return !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }

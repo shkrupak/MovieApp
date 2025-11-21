@@ -31,6 +31,7 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupBindings()
         requestMovieDetail()
     }
     
@@ -55,6 +56,29 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    private func setupBindings() {
+        viewModel.onLoadingChange = { isLoading in
+            if isLoading {
+                
+            } else {
+                
+            }
+        }
+        
+        viewModel.onStateChange = { [weak self] state in
+            guard let self = self else { return }
+            switch state {
+            case .success:
+                DispatchQueue.main.async {
+                    self.updateView()
+                }
+                break
+            case .failure(let error):
+                //show alert for error
+                break
+            }
+        }
+    }
  
     
     @objc
@@ -81,19 +105,10 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func requestMovieDetail() {
-        guard let movie = movie else {
-            return
-        }
-        viewModel.requestMovieDetail(movieID: movie.id ?? 0) { status, responseMessage in
-            print(responseMessage)
-            if status {
-                DispatchQueue.main.async {
-                    self.updateView()
-                }
-            }
-            else {
-                //show alert - details can't be fetched and dismiss by tapping ok
-            }
+        if let movie = movie {
+            viewModel.requestMovieDetail(movieID: movie.id ?? 0)
+        } else {
+            // show error alert
         }
     }
     

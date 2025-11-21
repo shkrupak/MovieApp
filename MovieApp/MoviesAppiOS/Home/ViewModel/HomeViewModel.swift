@@ -8,16 +8,19 @@
 import Foundation
 
 class HomeViewModel {
-    var moviesResponse: MovieResponseModel?
+    private(set) var moviesResponse: MovieResponseModel?
     private let service = HomeService()
-    var isLoading: Bool = false
+    private(set) var isLoading: Bool = false {
+        didSet { onLoadingChange?( isLoading )}
+    }
     
+    var onLoadingChange: ((Bool) -> Void)?
+    var onStateChange: ((BasicState) -> Void)?
     
-    func requestPopularMovie(completion: @escaping (Bool, String) -> Void) {
+    func requestPopularMovie() {
         isLoading = true
         service.requestPopularMovie { [weak self] response in
             guard let self = self else {
-                completion(false, "Unable to complete the search request")
                 return
             }
             
@@ -26,9 +29,9 @@ class HomeViewModel {
             switch response {
             case .success(let result):
                 self.moviesResponse = result
-                completion(true, "Search completed")
+                self.onStateChange?(.success)
             case .failure(let error):
-                completion(false, error.localizedDescription)
+                self.onStateChange?(.failure(error.localizedDescription))
             }
         }
     }

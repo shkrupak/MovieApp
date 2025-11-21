@@ -133,6 +133,13 @@
                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="jDh-U9-GDe"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="5p5-10-Xgr">
+                                <rect key="frame" x="186.66666666666666" y="441" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="GLR-aB-1sh"/>
+                                    <constraint firstAttribute="height" constant="20" id="gdW-SG-qWj"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -141,12 +148,15 @@
                             <constraint firstItem="1PP-fW-a9s" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="5qg-PX-TKk"/>
                             <constraint firstAttribute="bottom" secondItem="8uW-nZ-XlX" secondAttribute="bottom" id="DS3-me-kZD"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="8uW-nZ-XlX" secondAttribute="trailing" id="EoA-Pg-hhS"/>
+                            <constraint firstItem="5p5-10-Xgr" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" id="Et8-0M-RPp"/>
                             <constraint firstItem="8uW-nZ-XlX" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="NfJ-E1-WRj"/>
                             <constraint firstItem="1PP-fW-a9s" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="hAg-Oh-wYS"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1PP-fW-a9s" secondAttribute="trailing" constant="16" id="sAS-z7-mI7"/>
+                            <constraint firstItem="5p5-10-Xgr" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="uve-bj-qDn"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="5p5-10-Xgr" id="cvJ-Rc-1qc"/>
                         <outlet property="searchContainerView" destination="1PP-fW-a9s" id="7MA-zb-RJI"/>
                         <outlet property="searchResultTableView" destination="8uW-nZ-XlX" id="Iol-9l-NXp"/>
                         <outlet property="searchTextField" destination="rBt-rs-8SJ" id="3of-8k-Bf3"/>

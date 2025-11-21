@@ -8,15 +8,20 @@
 import Foundation
 
 class MovieDetailViewModel {
-    var movieDetailResponse: MovieDetailResponseModel?
+    private(set) var movieDetailResponse: MovieDetailResponseModel?
     private let service = MovieDetailService()
-    var isLoading = false
+    private(set) var isLoading = false {
+        didSet {onLoadingChange?(isLoading)}
+    }
     
-    func requestMovieDetail(movieID: Int, completion: @escaping (Bool, String) -> Void) {
+    var onLoadingChange: ((Bool) -> Void)?
+    var onStateChange: ((BasicState) -> Void)?
+    
+    
+    func requestMovieDetail(movieID: Int) {
         isLoading = true
         service.requestMovieDetail(movieID: movieID) { [weak self] response in
             guard let self = self else {
-                completion(false, "Unable to complete the request")
                 return
             }
             
@@ -25,9 +30,9 @@ class MovieDetailViewModel {
             switch response {
             case .success(let data):
                 self.movieDetailResponse = data
-                completion(true, "Movie detail received")
+                self.onStateChange?(.success)
             case .failure(let error):
-                completion(false, error.localizedDescription)
+                self.onStateChange?(.failure(error.localizedDescription))
             }
         }
     }
@@ -53,7 +58,7 @@ class MovieDetailViewModel {
     }
     
     func isMovieFavorite(movieID: Int) -> Bool {
-        if var favorites = UserDefaults.standard.value(forKey: "favorites") as? [Int] {
+        if let favorites = UserDefaults.standard.value(forKey: "favorites") as? [Int] {
             return favorites.contains(movieID)
         }
         return false

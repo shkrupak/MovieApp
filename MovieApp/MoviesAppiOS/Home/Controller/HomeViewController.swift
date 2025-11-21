@@ -19,22 +19,11 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupBinding()
         requestPopularMovie()
-        // Do any additional setup after loading the view.
     }
     
-    private func requestPopularMovie() {
-        viewModel.requestPopularMovie { status, responseMessage in
-            if status {
-                DispatchQueue.main.async {
-                    self.popularMovieTableView.reloadData()
-                }
-            }
-            else {
-                print(responseMessage)
-            }
-        }
-    }
+    
 
     //MARK: - METHODS
     private func setupView() {
@@ -50,6 +39,34 @@ class HomeViewController: UIViewController {
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
         navigationItem.rightBarButtonItem = searchBarButtonItem
+    }
+    
+    private func setupBinding() {
+        viewModel.onLoadingChange = { isLoading in
+            if isLoading {
+                
+            } else {
+                
+            }
+        }
+        
+        viewModel.onStateChange = { [weak self] state in
+            guard let self = self else { return }
+            switch state {
+            case .success:
+                DispatchQueue.main.async {
+                    self.popularMovieTableView.reloadData()
+                }
+                break
+            case .failure(let error):
+                //show alert for error
+                break
+            }
+        }
+    }
+    
+    private func requestPopularMovie() {
+        viewModel.requestPopularMovie()
     }
     
     @objc
