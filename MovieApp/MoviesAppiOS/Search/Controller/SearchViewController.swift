@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupBindings()
+        setupCallback()
     }
     
     //MARK: - METHOD
@@ -43,10 +43,12 @@ class SearchViewController: UIViewController {
         searchResultTableView.keyboardDismissMode = .onDrag
     }
     
-    private func setupBindings() {
+    private func setupCallback() {
         searchViewModel.onLoadingChange = { [weak self] isLoading in
             guard let self = self else { return }
-            self.activityIndicator.isHidden = !isLoading
+            DispatchQueue.main.async {
+                self.activityIndicator.isHidden = !isLoading
+            }
         }
         
         searchViewModel.onStateChange = { [weak self] state in

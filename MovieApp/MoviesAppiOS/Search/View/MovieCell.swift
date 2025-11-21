@@ -16,6 +16,7 @@ class MovieCell: UITableViewCell {
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var movieOverView: UILabel!
+    @IBOutlet weak var releasedDateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,6 +38,7 @@ class MovieCell: UITableViewCell {
         movieImage.sd_setImage(with: URL(string: "\(APIConstant.getImageBaseUrl())\(movie.poster_path ?? "")"), placeholderImage: UIImage(named: "img_no_poster"))
         voteImage.image = UIImage(named: "ic_movie")
         voteCountLabel.text = "Vote: \(movie.vote_average?.rounded(toPlace: 1) ?? 0.0)/10"
+        releasedDateLabel.text = movie.release_date?.formatDateTo(inputFormat: .yMMdd, outputFormat: .ddMMMy)
     }
 
 }

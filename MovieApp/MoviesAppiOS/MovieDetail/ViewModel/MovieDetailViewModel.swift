@@ -10,12 +10,19 @@ import Foundation
 class MovieDetailViewModel {
     private(set) var movieDetailResponse: MovieDetailResponseModel?
     private let service = MovieDetailService()
+    
+    private let favoriteRepository: FavoriteMovieRepository
+    
     private(set) var isLoading = false {
         didSet {onLoadingChange?(isLoading)}
     }
     
     var onLoadingChange: ((Bool) -> Void)?
     var onStateChange: ((BasicState) -> Void)?
+    
+    init(favoriteRepository: FavoriteMovieRepository = FavoriteMovieRepository()) {
+        self.favoriteRepository = favoriteRepository
+    }
     
     
     func requestMovieDetail(movieID: Int) {
@@ -37,30 +44,36 @@ class MovieDetailViewModel {
         }
     }
     
-    func toggleFavorite(movieID: Int) -> Bool {
-        if var favorites = UserDefaults.standard.value(forKey: "favorites") as? [Int] {
-            if favorites.contains(movieID) {
-                favorites.removeAll { $0 == movieID }
-                UserDefaults.standard.setValue(favorites, forKey: "favorites")
-                return false
-            }
-            else {
-                favorites.append(movieID)
-                UserDefaults.standard.setValue(favorites, forKey: "favorites")
-                return true
-            }
+    func fetchDetailOffline(movieID: Int) {
+        let favMovies = favoriteRepository.fetchFavoriteMovies(movieID: movieID)
+        if !favMovies.isEmpty {
+            let favMovie = favMovies.first
+            movieDetailResponse = MovieDetailResponseModel(id: movieID,
+                                                           backdrop_path: favMovie?.detail?.backdrop_path,
+                                                           original_title: favMovie?.detail?.original_title,
+                                                           overview: favMovie?.detail?.overview,
+                                                           poster_path: favMovie?.detail?.poster_path,
+                                                           release_date: favMovie?.detail?.release_date,
+                                                           runtime: favMovie?.detail?.runtime,
+                                                           status: favMovie?.detail?.status,
+                                                           vote_average: favMovie?.detail?.vote_average,
+                                                           title: favMovie?.detail?.title)
+            
+            self.onStateChange?(.success)
         } else {
-            var favorites: [Int] = []
-            favorites.append(movieID)
-            UserDefaults.standard.setValue(favorites, forKey: "favorites")
-            return true
+            self.onStateChange?(.failure("No detail found"))
         }
     }
     
-    func isMovieFavorite(movieID: Int) -> Bool {
-        if let favorites = UserDefaults.standard.value(forKey: "favorites") as? [Int] {
-            return favorites.contains(movieID)
+    func toggleFavorite(movie: MovieModel) -> Bool {
+        if let movieDetailResponse = movieDetailResponse {
+            let status = favoriteRepository.saveFavoriteMovies(movie: movie, movieDetail: movieDetailResponse)
+            return status.0
         }
         return false
+    }
+    
+    func isMovieFavorite(movieID: Int) -> Bool {
+        return favoriteRepository.isMovieAvailableInFavorite(movieID: movieID)
     }
 }

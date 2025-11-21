@@ -90,9 +90,19 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2J2-0p-zaq">
+                                                            <rect key="frame" x="318.33333333333331" y="105.66666666666667" width="30.666666666666686" height="21"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="21" id="Pwg-vF-qej"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
+                                                        <constraint firstItem="2J2-0p-zaq" firstAttribute="trailing" secondItem="8k8-0l-8bZ" secondAttribute="trailing" id="2Ly-7G-Cy6"/>
                                                         <constraint firstAttribute="trailing" secondItem="dDX-WV-JH0" secondAttribute="trailing" constant="12" id="5aZ-h2-wbB"/>
                                                         <constraint firstItem="iA7-g9-BHz" firstAttribute="leading" secondItem="bi9-dL-1va" secondAttribute="trailing" constant="6" id="AGc-RJ-b0p"/>
                                                         <constraint firstItem="8k8-0l-8bZ" firstAttribute="leading" secondItem="dDX-WV-JH0" secondAttribute="leading" id="HT2-QB-Ge5"/>
@@ -104,6 +114,7 @@
                                                         <constraint firstItem="Mch-Vo-u9X" firstAttribute="top" secondItem="Q3b-aL-z9c" secondAttribute="top" id="atI-2p-NEY"/>
                                                         <constraint firstItem="iA7-g9-BHz" firstAttribute="centerY" secondItem="bi9-dL-1va" secondAttribute="centerY" id="dmG-1K-HhO"/>
                                                         <constraint firstItem="8k8-0l-8bZ" firstAttribute="trailing" secondItem="dDX-WV-JH0" secondAttribute="trailing" id="hNv-t1-ZZG"/>
+                                                        <constraint firstItem="2J2-0p-zaq" firstAttribute="centerY" secondItem="iA7-g9-BHz" secondAttribute="centerY" id="jgz-80-Flh"/>
                                                         <constraint firstItem="dDX-WV-JH0" firstAttribute="leading" secondItem="Mch-Vo-u9X" secondAttribute="trailing" constant="16" id="pMZ-qa-ZUI"/>
                                                         <constraint firstItem="Mch-Vo-u9X" firstAttribute="leading" secondItem="Q3b-aL-z9c" secondAttribute="leading" id="s2v-Ue-cNc"/>
                                                     </constraints>
@@ -123,6 +134,7 @@
                                             <outlet property="movieImage" destination="Mch-Vo-u9X" id="iuF-5D-Hak"/>
                                             <outlet property="movieOverView" destination="8k8-0l-8bZ" id="yIq-Kt-Foc"/>
                                             <outlet property="movieTitleLabel" destination="dDX-WV-JH0" id="WEa-JW-EPz"/>
+                                            <outlet property="releasedDateLabel" destination="2J2-0p-zaq" id="m4S-Dc-o6d"/>
                                             <outlet property="voteCountLabel" destination="iA7-g9-BHz" id="gpB-fg-3gO"/>
                                             <outlet property="voteImage" destination="bi9-dL-1va" id="f4y-BE-bNA"/>
                                         </connections>

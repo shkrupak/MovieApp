@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupBinding()
+        setupCallback()
         requestPopularMovie()
     }
     
@@ -41,7 +41,7 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = searchBarButtonItem
     }
     
-    private func setupBinding() {
+    private func setupCallback() {
         viewModel.onLoadingChange = { isLoading in
             if isLoading {
                 
@@ -60,6 +60,7 @@ class HomeViewController: UIViewController {
                 break
             case .failure(let error):
                 //show alert for error
+                print(error)
                 break
             }
         }

@@ -23,6 +23,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UILabel!
     
     var movie: MovieModel?
+    var loadOffline: Bool = false
     private let viewModel = MovieDetailViewModel()
     private var favoriteButton: UIButton?
     
@@ -31,7 +32,7 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        setupBindings()
+        setupCallback()
         requestMovieDetail()
     }
     
@@ -56,7 +57,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    private func setupBindings() {
+    private func setupCallback() {
         viewModel.onLoadingChange = { isLoading in
             if isLoading {
                 
@@ -83,8 +84,12 @@ class MovieDetailViewController: UIViewController {
     
     @objc
     private func toggleFavorite() {
-        let isFav = viewModel.toggleFavorite(movieID: movie?.id ?? 0)
-        favoriteButton?.tintColor = isFav ? UIColor.App.favorite : UIColor.black
+        if let movie = movie {
+            let status = viewModel.toggleFavorite(movie: movie)
+            favoriteButton?.tintColor = status ? UIColor.App.favorite : UIColor.black
+        }
+        
+        
     }
     
     private func updateView() {
@@ -106,16 +111,15 @@ class MovieDetailViewController: UIViewController {
     
     private func requestMovieDetail() {
         if let movie = movie {
-            viewModel.requestMovieDetail(movieID: movie.id ?? 0)
+            if loadOffline {
+                viewModel.fetchDetailOffline(movieID: movie.id)
+            } else {
+                viewModel.requestMovieDetail(movieID: movie.id)
+            }
         } else {
             // show error alert
         }
+        
+        
     }
-    
-    //MARK: - ACTION
-    
-    
-    //MARK: - DELEGATE
-    
-    
 }
