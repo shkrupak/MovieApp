@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var searchResultTableView: UITableView!
+    @IBOutlet weak var resultTitleLabel: UILabel!
     
     private let searchViewModel = SearchMovieViewModel()
     
@@ -22,11 +23,14 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupCallback()
+        searchViewModel.fetchRecentSearch()
     }
     
     //MARK: - METHOD
     private func setupView() {
         title = "Search Movies"
+        searchTextField.placeholder = "Search Movies"
+        resultTitleLabel.text = ""
         view.backgroundColor = UIColor.App.background
         
         activityIndicator.hidesWhenStopped = true
@@ -56,11 +60,18 @@ class SearchViewController: UIViewController {
             switch state {
             case .success:
                 DispatchQueue.main.async {
+                    self.resultTitleLabel.text = self.searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? "Recent Search" : "Search Result"
                     self.searchResultTableView.reloadData()
                 }
                 break
             case .failure(let error):
                 //show alert for error
+                DispatchQueue.main.async {
+                    if (self.searchViewModel.moviesResponse?.results ?? []).isEmpty {
+                        self.resultTitleLabel.text = "No movies found"
+                    }
+                    self.searchResultTableView.reloadData()
+                }
                 break
                 
             case .cleared:
@@ -75,12 +86,17 @@ class SearchViewController: UIViewController {
     @objc
     private func requestSearchMovie() {
         searchViewModel.requestSearchMovie(query: searchTextField.text ?? "")
-
+        if searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            searchViewModel.fetchRecentSearch()
+        }
     }
     
     private func navigateToDetailView(movie: MovieModel) {
         if let detailView = UIStoryboard(name: "MovieDetail", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
             detailView.movie = movie
+            detailView.callingView = .search
+            detailView.saveForOffline = Network.isNetworkAvailable()
+            detailView.loadOffline = !Network.isNetworkAvailable()
             navigationController?.pushViewController(detailView, animated: true)
         }
     }
@@ -107,6 +123,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         if let movie = searchViewModel.moviesResponse?.results[indexPath.row] as? MovieModel {
             navigateToDetailView(movie: movie)
+            
         }
     }
     

@@ -10,12 +10,19 @@ import Foundation
 class SearchMovieViewModel {
     private(set) var moviesResponse: MovieResponseModel?
     private let searchMovieService = SearchMovieService()
+    
+    private let repository: SearchMovieRepository
+    
     private(set) var isLoading: Bool = false {
         didSet { onLoadingChange?(isLoading)}
     }
     
     var onLoadingChange: ((Bool) -> Void)?
     var onStateChange: ((SearchState) -> Void)?
+    
+    init(repository: SearchMovieRepository = SearchMovieRepository()) {
+        self.repository = repository
+    }
     
     enum SearchState {
         case success
@@ -45,6 +52,14 @@ class SearchMovieViewModel {
         else {
             moviesResponse = nil
             self.onStateChange?(.cleared)
+        }
+    }
+    
+    func fetchRecentSearch() {
+        let recentMovies = repository.fetchSearchMovie()
+        if !recentMovies.isEmpty {
+            moviesResponse = MovieResponseModel(page: 1, results: recentMovies)
+            self.onStateChange?(.success)
         }
     }
     

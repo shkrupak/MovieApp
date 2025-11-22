@@ -15,7 +15,7 @@ final class AppConfiguration {
         appearance.backgroundColor = .clear
         appearance.shadowColor = .clear
         
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.App.text]
         
         let navbar = UINavigationBar.appearance()
         navbar.standardAppearance = appearance

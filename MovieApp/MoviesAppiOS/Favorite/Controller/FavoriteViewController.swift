@@ -57,6 +57,7 @@ class FavoriteViewController: UIViewController {
         if let detailView = UIStoryboard(name: "MovieDetail", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
             detailView.movie = movie
             detailView.loadOffline = true
+            detailView.callingView = .favorite
             navigationController?.pushViewController(detailView, animated: true)
         }
     }

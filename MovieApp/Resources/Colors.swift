@@ -28,5 +28,9 @@ extension UIColor {
         static var favorite: UIColor {
             UIColor(named: "Favorite") ?? .gray
         }
+        
+        static var text: UIColor {
+            UIColor(named: "Text") ?? .gray
+        }
     }
 }

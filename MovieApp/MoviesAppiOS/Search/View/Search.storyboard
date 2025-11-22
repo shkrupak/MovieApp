@@ -37,7 +37,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8uW-nZ-XlX">
-                                <rect key="frame" x="0.0" y="206" width="393" height="646"/>
+                                <rect key="frame" x="0.0" y="239" width="393" height="613"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MovieCell" rowHeight="154" id="X4R-Dx-M1D" customClass="MovieCell" customModule="MovieApp" customModuleProvider="target">
@@ -152,23 +152,35 @@
                                     <constraint firstAttribute="height" constant="20" id="gdW-SG-qWj"/>
                                 </constraints>
                             </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giz-ve-62G">
+                                <rect key="frame" x="16" y="206" width="36" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="DlB-gx-QYL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="8uW-nZ-XlX" firstAttribute="top" secondItem="1PP-fW-a9s" secondAttribute="bottom" constant="12" id="4uy-zf-Kfi"/>
                             <constraint firstItem="1PP-fW-a9s" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="5qg-PX-TKk"/>
+                            <constraint firstItem="giz-ve-62G" firstAttribute="top" secondItem="1PP-fW-a9s" secondAttribute="bottom" constant="12" id="8BK-XH-biZ"/>
                             <constraint firstAttribute="bottom" secondItem="8uW-nZ-XlX" secondAttribute="bottom" id="DS3-me-kZD"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="8uW-nZ-XlX" secondAttribute="trailing" id="EoA-Pg-hhS"/>
                             <constraint firstItem="5p5-10-Xgr" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" id="Et8-0M-RPp"/>
                             <constraint firstItem="8uW-nZ-XlX" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="NfJ-E1-WRj"/>
+                            <constraint firstItem="giz-ve-62G" firstAttribute="leading" secondItem="1PP-fW-a9s" secondAttribute="leading" id="Qdz-Ug-lPn"/>
                             <constraint firstItem="1PP-fW-a9s" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="hAg-Oh-wYS"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1PP-fW-a9s" secondAttribute="trailing" constant="16" id="sAS-z7-mI7"/>
                             <constraint firstItem="5p5-10-Xgr" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="uve-bj-qDn"/>
+                            <constraint firstItem="8uW-nZ-XlX" firstAttribute="top" secondItem="giz-ve-62G" secondAttribute="bottom" constant="12" id="vBh-ID-Mls"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="5p5-10-Xgr" id="cvJ-Rc-1qc"/>
+                        <outlet property="resultTitleLabel" destination="giz-ve-62G" id="E0Y-fK-DI8"/>
                         <outlet property="searchContainerView" destination="1PP-fW-a9s" id="7MA-zb-RJI"/>
                         <outlet property="searchResultTableView" destination="8uW-nZ-XlX" id="Iol-9l-NXp"/>
                         <outlet property="searchTextField" destination="rBt-rs-8SJ" id="3of-8k-Bf3"/>

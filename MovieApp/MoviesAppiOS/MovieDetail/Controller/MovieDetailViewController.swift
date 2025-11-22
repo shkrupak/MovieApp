@@ -24,8 +24,15 @@ class MovieDetailViewController: UIViewController {
     
     var movie: MovieModel?
     var loadOffline: Bool = false
+    var saveForOffline: Bool = false
+    var callingView: CallingView = .search
     private let viewModel = MovieDetailViewModel()
     private var favoriteButton: UIButton?
+    
+    enum CallingView {
+        case favorite
+        case search
+    }
     
     
     //MARK: - LIFE CYCLE
@@ -76,6 +83,7 @@ class MovieDetailViewController: UIViewController {
                 break
             case .failure(let error):
                 //show alert for error
+                
                 break
             }
         }
@@ -112,9 +120,14 @@ class MovieDetailViewController: UIViewController {
     private func requestMovieDetail() {
         if let movie = movie {
             if loadOffline {
-                viewModel.fetchDetailOffline(movieID: movie.id)
+                switch callingView {
+                case .favorite:
+                    viewModel.fetchFavoriteDetailOffline(movieID: movie.id)
+                case .search:
+                    viewModel.fetchRecentSeachMovieDetailOffline(movieID: movie.id)
+                }
             } else {
-                viewModel.requestMovieDetail(movieID: movie.id)
+                viewModel.requestMovieDetail(movie: movie)
             }
         } else {
             // show error alert

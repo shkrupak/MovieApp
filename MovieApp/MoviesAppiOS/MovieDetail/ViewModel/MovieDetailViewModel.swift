@@ -12,6 +12,7 @@ class MovieDetailViewModel {
     private let service = MovieDetailService()
     
     private let favoriteRepository: FavoriteMovieRepository
+    private let searchRepository: SearchMovieRepository
     
     private(set) var isLoading = false {
         didSet {onLoadingChange?(isLoading)}
@@ -20,14 +21,15 @@ class MovieDetailViewModel {
     var onLoadingChange: ((Bool) -> Void)?
     var onStateChange: ((BasicState) -> Void)?
     
-    init(favoriteRepository: FavoriteMovieRepository = FavoriteMovieRepository()) {
+    init(favoriteRepository: FavoriteMovieRepository = FavoriteMovieRepository(), searchRepository: SearchMovieRepository = SearchMovieRepository()) {
         self.favoriteRepository = favoriteRepository
+        self.searchRepository = searchRepository
     }
     
     
-    func requestMovieDetail(movieID: Int) {
+    func requestMovieDetail(movie: MovieModel) {
         isLoading = true
-        service.requestMovieDetail(movieID: movieID) { [weak self] response in
+        service.requestMovieDetail(movieID: movie.id) { [weak self] response in
             guard let self = self else {
                 return
             }
@@ -37,6 +39,7 @@ class MovieDetailViewModel {
             switch response {
             case .success(let data):
                 self.movieDetailResponse = data
+                saveSearchMovie(movie: movie, movieDetail: data)
                 self.onStateChange?(.success)
             case .failure(let error):
                 self.onStateChange?(.failure(error.localizedDescription))
@@ -44,7 +47,7 @@ class MovieDetailViewModel {
         }
     }
     
-    func fetchDetailOffline(movieID: Int) {
+    func fetchFavoriteDetailOffline(movieID: Int) {
         let favMovies = favoriteRepository.fetchFavoriteMovies(movieID: movieID)
         if !favMovies.isEmpty {
             let favMovie = favMovies.first
@@ -65,12 +68,37 @@ class MovieDetailViewModel {
         }
     }
     
+    func fetchRecentSeachMovieDetailOffline(movieID: Int) {
+        let recentMovies = searchRepository.fetchSearchMovie(movieID: movieID)
+        if !recentMovies.isEmpty {
+            let searchMovie = recentMovies.first
+            movieDetailResponse = MovieDetailResponseModel(id: movieID,
+                                                           backdrop_path: searchMovie?.detail?.backdrop_path,
+                                                           original_title: searchMovie?.detail?.original_title,
+                                                           overview: searchMovie?.detail?.overview,
+                                                           poster_path: searchMovie?.detail?.poster_path,
+                                                           release_date: searchMovie?.detail?.release_date,
+                                                           runtime: searchMovie?.detail?.runtime,
+                                                           status: searchMovie?.detail?.status,
+                                                           vote_average: searchMovie?.detail?.vote_average,
+                                                           title: searchMovie?.detail?.title)
+            self.onStateChange?(.success)
+        }
+        else {
+            self.onStateChange?(.failure("No detail found"))
+        }
+    }
+    
     func toggleFavorite(movie: MovieModel) -> Bool {
         if let movieDetailResponse = movieDetailResponse {
             let status = favoriteRepository.saveFavoriteMovies(movie: movie, movieDetail: movieDetailResponse)
             return status.0
         }
         return false
+    }
+    
+    func saveSearchMovie(movie: MovieModel, movieDetail: MovieDetailResponseModel) {
+        searchRepository.saveSearchMovies(movie: movie, movieDetail: movieDetail)
     }
     
     func isMovieFavorite(movieID: Int) -> Bool {
