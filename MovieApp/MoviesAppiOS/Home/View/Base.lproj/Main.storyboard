@@ -131,6 +131,13 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ggG-j1-CEp"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="a77-dq-gRU">
+                                <rect key="frame" x="186.66666666666666" y="443.66666666666669" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="KME-gI-16R"/>
+                                    <constraint firstAttribute="height" constant="20" id="rgO-Mf-kgn"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -139,12 +146,15 @@
                             <constraint firstItem="PzP-YG-JyL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="7Yh-G8-XJU"/>
                             <constraint firstItem="y6T-NF-hUa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="AxX-Ow-c5x"/>
                             <constraint firstItem="y6T-NF-hUa" firstAttribute="top" secondItem="PzP-YG-JyL" secondAttribute="bottom" constant="12" id="SQQ-xR-pM8"/>
+                            <constraint firstItem="a77-dq-gRU" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="TWw-Pd-K0b"/>
                             <constraint firstItem="PzP-YG-JyL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="TXe-wg-CoI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="y6T-NF-hUa" secondAttribute="trailing" id="Wpc-zq-7pq"/>
+                            <constraint firstItem="a77-dq-gRU" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="XlC-yQ-WD4"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UqC-iC-Kyg"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="a77-dq-gRU" id="9o8-Rl-yhF"/>
                         <outlet property="popularMovieTableView" destination="y6T-NF-hUa" id="P1K-it-SWH"/>
                     </connections>
                 </viewController>

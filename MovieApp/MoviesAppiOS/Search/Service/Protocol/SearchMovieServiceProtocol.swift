@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SearchMovieServiceProtocol {
-    func requestSearchMovie(query: String, completion: @escaping (Result<MovieResponseModel, RemoteAPIError>) -> Void)
+    func requestSearchMovie(query: String, page: Int, completion: @escaping (Result<MovieResponseModel, RemoteAPIError>) -> Void)
 }

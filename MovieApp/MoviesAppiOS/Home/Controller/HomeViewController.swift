@@ -11,6 +11,7 @@ class HomeViewController: UIViewController {
 
     //MARK: - PROPERTY
 //    @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var popularMovieTableView: UITableView!
     
     private let viewModel = HomeViewModel()
@@ -22,8 +23,6 @@ class HomeViewController: UIViewController {
         setupCallback()
         requestPopularMovie()
     }
-    
-    
 
     //MARK: - METHODS
     private func setupView() {
@@ -42,11 +41,10 @@ class HomeViewController: UIViewController {
     }
     
     private func setupCallback() {
-        viewModel.onLoadingChange = { isLoading in
-            if isLoading {
-                
-            } else {
-                
+        viewModel.onLoadingChange = { [weak self] isLoading in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.activityIndicator.isHidden = !isLoading
             }
         }
         
@@ -81,6 +79,7 @@ class HomeViewController: UIViewController {
     private func navigateToDetailView(movie: MovieModel) {
         if let detailView = UIStoryboard(name: "MovieDetail", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
             detailView.movie = movie
+            detailView.callingView = .home
             navigationController?.pushViewController(detailView, animated: true)
         }
     }
@@ -106,7 +105,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if let movie = viewModel.moviesResponse?.results[indexPath.row] as? MovieModel {
-            navigateToDetailView(movie: movie)
+            if Network.isNetworkAvailable() {
+                navigateToDetailView(movie: movie)
+            } else {
+                self.showAlertWith(message: "Unable to load movie detail without internet connection")
+            }
         }
     }
 }

@@ -24,7 +24,6 @@ class MovieDetailViewController: UIViewController {
     
     var movie: MovieModel?
     var loadOffline: Bool = false
-    var saveForOffline: Bool = false
     var callingView: CallingView = .search
     private let viewModel = MovieDetailViewModel()
     private var favoriteButton: UIButton?
@@ -32,6 +31,7 @@ class MovieDetailViewController: UIViewController {
     enum CallingView {
         case favorite
         case search
+        case home
     }
     
     
@@ -96,8 +96,6 @@ class MovieDetailViewController: UIViewController {
             let status = viewModel.toggleFavorite(movie: movie)
             favoriteButton?.tintColor = status ? UIColor.App.favorite : UIColor.black
         }
-        
-        
     }
     
     private func updateView() {
@@ -105,8 +103,13 @@ class MovieDetailViewController: UIViewController {
         
         if let movieResponse = viewModel.movieDetailResponse {
             movieImage.setImage(named: movieResponse.backdrop_path ?? "") { [weak self] status in
+                guard let self = self else { return }
                 if !status {
-                    self?.movieImage.image = UIImage(named: "img_no_poster")
+                    self.movieImage.setImage(named: movieResponse.poster_path ?? "") { _ in
+                        if !status {
+                            self.movieImage.image = UIImage(named: "img_no_poster")
+                        }
+                    }
                 }
             }
             movieTitleLabel.text = movieResponse.title
@@ -125,6 +128,8 @@ class MovieDetailViewController: UIViewController {
                     viewModel.fetchFavoriteDetailOffline(movieID: movie.id)
                 case .search:
                     viewModel.fetchRecentSeachMovieDetailOffline(movieID: movie.id)
+                default:
+                    break
                 }
             } else {
                 viewModel.requestMovieDetail(movie: movie)
@@ -132,7 +137,5 @@ class MovieDetailViewController: UIViewController {
         } else {
             // show error alert
         }
-        
-        
     }
 }

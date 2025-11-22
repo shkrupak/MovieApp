@@ -16,6 +16,8 @@ class SearchMovieViewModel {
     private(set) var isLoading: Bool = false {
         didSet { onLoadingChange?(isLoading)}
     }
+    private(set) var shouldPaginate = false
+    private var currentPage = 1
     
     var onLoadingChange: ((Bool) -> Void)?
     var onStateChange: ((SearchState) -> Void)?
@@ -33,19 +35,32 @@ class SearchMovieViewModel {
     func requestSearchMovie(query: String) {
         if isValidQuery(query: query) {
             isLoading = true
-            searchMovieService.requestSearchMovie(query: query) { [weak self] response in
+            searchMovieService.requestSearchMovie(query: query, page: currentPage) { [weak self] response in
                 guard let self = self else {
                     return
                 }
                 self.isLoading = false
                 
-                
                 switch response {
                 case .success(let result):
-                    self.moviesResponse = result
-                    self.onStateChange?(((self.moviesResponse?.results.isEmpty) ?? true) ? .failure("No movies found") : .success)
+                    if !shouldPaginate {
+                        self.moviesResponse = result
+                    } else {
+                        self.moviesResponse?.results.append(contentsOf: result.results)
+                    }
+                    
+                    shouldPaginate = !result.results.isEmpty
+                    if shouldPaginate { currentPage += 1 }
+                   
+                    let isEmpty = self.moviesResponse?.results.isEmpty ?? true
+                    self.onStateChange?(isEmpty ? .failure("No movies found") : .success)
                 case .failure(let error):
-                    self.onStateChange?(.failure(error.localizedDescription))
+                    switch error {
+                    case .failedToParse, .invalidURL, .invalidData, .invalidResponse, .unableToComplete:
+                        self.onStateChange?(.failure("Unable to load data"))
+                    case .noInternet:
+                        self.onStateChange?(.failure("Internet connection is not available"))
+                    }
                 }
             }
         }
@@ -53,6 +68,11 @@ class SearchMovieViewModel {
             moviesResponse = nil
             self.onStateChange?(.cleared)
         }
+    }
+    
+    func resetPagination() {
+        currentPage = 1
+        shouldPaginate = false
     }
     
     func fetchRecentSearch() {

@@ -42,7 +42,12 @@ class MovieDetailViewModel {
                 saveSearchMovie(movie: movie, movieDetail: data)
                 self.onStateChange?(.success)
             case .failure(let error):
-                self.onStateChange?(.failure(error.localizedDescription))
+                switch error {
+                case .failedToParse, .invalidURL, .invalidData, .invalidResponse, .unableToComplete:
+                    self.onStateChange?(.failure("Unable to load data"))
+                case .noInternet:
+                    self.onStateChange?(.failure("Internet connection is not available"))
+                }
             }
         }
     }

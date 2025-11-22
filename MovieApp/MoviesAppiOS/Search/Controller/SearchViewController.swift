@@ -60,13 +60,13 @@ class SearchViewController: UIViewController {
             switch state {
             case .success:
                 DispatchQueue.main.async {
-                    self.resultTitleLabel.text = self.searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? "Recent Search" : "Search Result"
+                    self.resultTitleLabel.text = self.searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? "Recently Searched" : "Search Result"
                     self.searchResultTableView.reloadData()
                 }
                 break
-            case .failure(let error):
-                //show alert for error
+            case .failure(let errorMessage):
                 DispatchQueue.main.async {
+                    self.showAlertWith(message: errorMessage)
                     if (self.searchViewModel.moviesResponse?.results ?? []).isEmpty {
                         self.resultTitleLabel.text = "No movies found"
                     }
@@ -85,6 +85,7 @@ class SearchViewController: UIViewController {
     
     @objc
     private func requestSearchMovie() {
+        searchViewModel.resetPagination()
         searchViewModel.requestSearchMovie(query: searchTextField.text ?? "")
         if searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             searchViewModel.fetchRecentSearch()
@@ -95,7 +96,6 @@ class SearchViewController: UIViewController {
         if let detailView = UIStoryboard(name: "MovieDetail", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController {
             detailView.movie = movie
             detailView.callingView = .search
-            detailView.saveForOffline = Network.isNetworkAvailable()
             detailView.loadOffline = !Network.isNetworkAvailable()
             navigationController?.pushViewController(detailView, animated: true)
         }
@@ -127,5 +127,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let movieResponse = searchViewModel.moviesResponse?.results {
+            if indexPath.row == movieResponse.count - 3 && searchViewModel.shouldPaginate {
+                searchViewModel.requestSearchMovie(query: self.searchTextField.text ?? "")
+            }
+        }
+       
+    }
 }

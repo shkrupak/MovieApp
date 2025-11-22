@@ -7,15 +7,15 @@
 
 import UIKit
 
-enum MovieAlert: String {
+enum MovieAlertMessage: String {
     case noMovieDetail = "Unable to load movie detail"
     case noInternet = "Internet connection is not available"
     
 }
 
 extension UIViewController {
-    func showAlertWith(message: MovieAlert) {
-        let alertController = UIAlertController(title: "", message: message.rawValue, preferredStyle: .alert)
+    func showAlertWith(message: String) {
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: .cancel))
         self.present(alertController, animated: true)
     }

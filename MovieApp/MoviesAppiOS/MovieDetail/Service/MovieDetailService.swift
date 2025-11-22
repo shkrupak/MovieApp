@@ -11,25 +11,29 @@ final class MovieDetailService: MovieDetailServiceProtocol {
     let networkManager = MoviesNetworkManager()
     
     func requestMovieDetail(movieID: Int, completion: @escaping (Result<MovieDetailResponseModel, RemoteAPIError>) -> Void) {
-        
-        guard let urlRequest = makeURLRequest(movieID: movieID) else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        networkManager.loadData(request: urlRequest) { response in
-            switch response {
-            case .success(let data):
-                do {
-                    let movieDetailResponse = try JSONDecoder().decode(MovieDetailResponseModel.self, from: data)
-                    completion(.success(movieDetailResponse))
-                }
-                catch {
-                    completion(.failure(.failedToParse))
-                }
-            case .failure(_):
-                completion(.failure(.unableToComplete))
+        if Network.isNetworkAvailable() {
+            guard let urlRequest = makeURLRequest(movieID: movieID) else {
+                completion(.failure(.invalidURL))
+                return
             }
+            
+            networkManager.loadData(request: urlRequest) { response in
+                switch response {
+                case .success(let data):
+                    do {
+                        let movieDetailResponse = try JSONDecoder().decode(MovieDetailResponseModel.self, from: data)
+                        completion(.success(movieDetailResponse))
+                    }
+                    catch {
+                        completion(.failure(.failedToParse))
+                    }
+                case .failure(_):
+                    completion(.failure(.unableToComplete))
+                }
+            }
+        }
+        else {
+            completion(.failure(RemoteAPIError.noInternet))
         }
     }
 }

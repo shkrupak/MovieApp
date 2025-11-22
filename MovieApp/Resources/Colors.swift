@@ -32,5 +32,9 @@ extension UIColor {
         static var text: UIColor {
             UIColor(named: "Text") ?? .gray
         }
+        
+        static var navigationBar: UIColor {
+            UIColor(named: "NavigationBar") ?? .gray
+        }
     }
 }

@@ -11,26 +11,31 @@ final class HomeService: HomeServiceProtocol {
     let networkManager = MoviesNetworkManager()
     
     func requestPopularMovie(completion: @escaping (Result<MovieResponseModel, RemoteAPIError>) -> Void) {
-        guard let urlRequest = makeURLRequest() else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        networkManager.loadData(request: urlRequest) { response in
-            switch response {
-            case .success(let data):
-                do {
-                    let searchMovieResposne = try JSONDecoder().decode(MovieResponseModel.self, from: data)
-                    completion(.success(searchMovieResposne))
+        if Network.isNetworkAvailable() {
+            guard let urlRequest = makeURLRequest() else {
+                completion(.failure(.invalidURL))
+                return
+            }
+            networkManager.loadData(request: urlRequest) { response in
+                switch response {
+                case .success(let data):
+                    do {
+                        let searchMovieResposne = try JSONDecoder().decode(MovieResponseModel.self, from: data)
+                        completion(.success(searchMovieResposne))
+                    }
+                    catch let error {
+                        print(error.localizedDescription)
+                        completion(.failure(.failedToParse))
+                    }
+                    
+                case .failure(_):
+                    completion(.failure(RemoteAPIError.unableToComplete))
                 }
-                catch let error {
-                    print(error.localizedDescription)
-                    completion(.failure(.failedToParse))
-                }
-                
-            case .failure(_):
-                completion(.failure(RemoteAPIError.unableToComplete))
             }
         }
+        else {
+            completion(.failure(RemoteAPIError.noInternet))
+        }   
     }
 }
 
