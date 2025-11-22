@@ -60,7 +60,7 @@ class SearchViewController: UIViewController {
             switch state {
             case .success:
                 DispatchQueue.main.async {
-                    self.resultTitleLabel.text = self.searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? "Recently Searched" : "Search Result"
+                    self.resultTitleLabel.text = self.searchTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? "Recently Searched and Viewed" : "Search Result"
                     self.searchResultTableView.reloadData()
                 }
                 break
