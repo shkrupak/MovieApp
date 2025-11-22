@@ -36,5 +36,9 @@ extension UIColor {
         static var navigationBar: UIColor {
             UIColor(named: "NavigationBar") ?? .gray
         }
+        
+        static var iconTint: UIColor {
+            UIColor(named: "IconTint") ?? .gray
+        }
     }
 }

@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
         //Search Button
         let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
         searchButton.setImage(UIImage(named: "ic_search"), for: .normal)
-        searchButton.tintColor = UIColor.black
+        searchButton.tintColor = UIColor.App.iconTint
         searchButton.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
         let searchBarButtonItem = UIBarButtonItem(customView: searchButton)
         navigationItem.rightBarButtonItem = searchBarButtonItem

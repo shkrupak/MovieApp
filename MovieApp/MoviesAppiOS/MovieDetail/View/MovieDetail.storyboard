@@ -147,19 +147,29 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="0pd-LH-63h"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="Vps-qe-HY8"/>
                             </scrollView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="tGu-Ca-xU9">
+                                <rect key="frame" x="186.66666666666666" y="441" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="fhN-sl-tlx"/>
+                                    <constraint firstAttribute="height" constant="20" id="twW-xy-kaa"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="tGu-Ca-xU9" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="3aH-tc-UkH"/>
                             <constraint firstAttribute="bottom" secondItem="HlK-Bp-AVX" secondAttribute="bottom" id="7nZ-jc-OIz"/>
                             <constraint firstItem="1td-wR-p2M" firstAttribute="width" secondItem="5EZ-qb-Rvc" secondAttribute="width" id="9WL-nN-qAK"/>
                             <constraint firstItem="HlK-Bp-AVX" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="LIx-OE-wPG"/>
                             <constraint firstItem="1td-wR-p2M" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" priority="750" id="qVo-e7-Uwc"/>
+                            <constraint firstItem="tGu-Ca-xU9" firstAttribute="centerY" secondItem="vDu-zF-Fre" secondAttribute="centerY" id="tgF-t0-F1f"/>
                             <constraint firstItem="HlK-Bp-AVX" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="w3f-WP-JLq"/>
                             <constraint firstItem="HlK-Bp-AVX" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="yCN-c1-F9M"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="tGu-Ca-xU9" id="aTa-Bi-r5Y"/>
                         <outlet property="detailContainerView" destination="1td-wR-p2M" id="yu5-Vx-yQX"/>
                         <outlet property="movieImage" destination="uOB-ri-zgL" id="PoX-gO-34v"/>
                         <outlet property="movieTitleLabel" destination="N8P-OS-otM" id="ivp-3P-H7N"/>

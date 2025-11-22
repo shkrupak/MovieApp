@@ -21,6 +21,7 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var runtimeLabel: UILabel!
     
     @IBOutlet weak var overviewLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var movie: MovieModel?
     var loadOffline: Bool = false
@@ -57,7 +58,7 @@ class MovieDetailViewController: UIViewController {
         favoriteButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
         if let favoriteButton = favoriteButton {
             favoriteButton.setImage(UIImage(named: "ic_heart"), for: .normal)
-            favoriteButton.tintColor = .black
+            favoriteButton.tintColor = UIColor.App.iconTint
             favoriteButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
             let rightBarButtonItem = UIBarButtonItem(customView: favoriteButton)
             navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -65,11 +66,10 @@ class MovieDetailViewController: UIViewController {
     }
     
     private func setupCallback() {
-        viewModel.onLoadingChange = { isLoading in
-            if isLoading {
-                
-            } else {
-                
+        viewModel.onLoadingChange = { [weak self] isLoading in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.activityIndicator.isHidden = !isLoading
             }
         }
         
@@ -94,12 +94,12 @@ class MovieDetailViewController: UIViewController {
     private func toggleFavorite() {
         if let movie = movie {
             let status = viewModel.toggleFavorite(movie: movie)
-            favoriteButton?.tintColor = status ? UIColor.App.favorite : UIColor.black
+            favoriteButton?.tintColor = status ? UIColor.App.favorite : UIColor.App.iconTint
         }
     }
     
     private func updateView() {
-        favoriteButton?.tintColor = viewModel.isMovieFavorite(movieID: movie?.id ?? 0) ? UIColor.App.favorite : UIColor.black
+        favoriteButton?.tintColor = viewModel.isMovieFavorite(movieID: movie?.id ?? 0) ? UIColor.App.favorite : UIColor.App.iconTint
         
         if let movieResponse = viewModel.movieDetailResponse {
             movieImage.setImage(named: movieResponse.backdrop_path ?? "") { [weak self] status in
