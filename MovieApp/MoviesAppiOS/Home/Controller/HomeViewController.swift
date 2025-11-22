@@ -10,7 +10,6 @@ import UIKit
 class HomeViewController: UIViewController {
 
     //MARK: - PROPERTY
-//    @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var popularMovieTableView: UITableView!
     
@@ -26,7 +25,6 @@ class HomeViewController: UIViewController {
 
     //MARK: - METHODS
     private func setupView() {
-        // search button
         view.backgroundColor = UIColor.App.background
         title = "MovieBox"
         popularMovieTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
@@ -57,8 +55,7 @@ class HomeViewController: UIViewController {
                 }
                 break
             case .failure(let error):
-                //show alert for error
-                print(error)
+                self.showAlertWith(message: error)
                 break
             }
         }
